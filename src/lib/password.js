@@ -1,10 +1,10 @@
-import bcryp from 'bcrypt'
+import bcryp from "bcrypt";
 
-export const encryptPassword = async (password) => {
-    const salt = await bcryp.genSalt(10);
-    return await bcryp.hash(password, salt);
-}
+export const encryptPassword = async (pssword) => {
+  const salt = await bcryp.genSalt(10);
+  return await bcryp.hash(pssword, salt);
+};
 
-export const comparePassword = async (password, receivedPassword) => {
-    return await bcryp.compare(password, receivedPassword);
-}
+export const comparePassword = async (plainPassword, hashedPassword) => {
+  return await bcryp.compare(plainPassword, hashedPassword);
+};

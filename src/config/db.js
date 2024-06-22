@@ -6,7 +6,7 @@ const connection = async () => {
       host: "localhost",
       user: "root",
       password: "",
-      database: "biblioteca",
+      database: "biblio",
     });
     return con;
   } catch (error) {

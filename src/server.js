@@ -1,6 +1,6 @@
 import http from "http";
 import express from "express";
-import sociosRouter from "./routes/socios.routes.js";
+import usersRouter from "./routes/users.routes.js";
 import { authRouter } from "./routes/auth.routes.js";
 import librosRouter from "./routes/libros.routes.js";
 import connection from "./config/db.js";
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 // Rutas
 app.use("/auth", authRouter);
-app.use("/socios", sociosRouter);
+app.use("/users", usersRouter);
 app.use("/libros", librosRouter);
 
 // Iniciar servidor HTTP

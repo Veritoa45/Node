@@ -1,23 +1,13 @@
 import connection from "../config/db.js"; // Importa la conexión a MySQL
-import Socio from "../models/socio.model.js";
+import User from "../models/user.model.js";
 
 // Función para crear un nuevo socio
-const createSocio = async (req, res) => {
+const createUser = async (req, res) => {
   try {
-    const { CodSocio, Dni, Nombre, Apellido, Direccion, Tel, Mail, Password } =
-      req.body;
+    const { nombre, apellido, mail, pssword, tel } = req.body;
 
-    const query = `INSERT INTO ${Socio.tableName} (CodSocio, Dni, Nombre, Apellido, Direccion, Tel, Mail, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values = [
-      CodSocio,
-      Dni,
-      Nombre,
-      Apellido,
-      Direccion,
-      Tel,
-      Mail,
-      Password,
-    ];
+    const query = `INSERT INTO ${User.tableName} (nombre, apellido, mail, pssword, tel) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const values = [nombre, apellido, mail, pssword, tel];
 
     connection.query(query, values, (err, results) => {
       if (err) {
@@ -26,12 +16,11 @@ const createSocio = async (req, res) => {
       } else {
         res.status(201).json({
           id: results.insertId,
-          CodSocio,
-          Dni,
-          Nombre,
-          Apellido,
-          Direccion,
-          Tel,
+          nombre,
+          apellido,
+          mail,
+          pssword,
+          tel,
         });
       }
     });
@@ -42,9 +31,9 @@ const createSocio = async (req, res) => {
 };
 
 // Función para obtener todos los socios
-const getAllSocios = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
-    const query = `SELECT * FROM ${Socio.tableName}`;
+    const query = `SELECT * FROM ${User.tableName}`;
 
     connection.query(query, (err, results) => {
       if (err) {
@@ -60,12 +49,12 @@ const getAllSocios = async (req, res) => {
   }
 };
 
-const getOneSocio = async (req, res) => {
+const getOneUser = async (req, res) => {
   try {
-    const { Mail } = req.params;
+    const { mail } = req.params;
     const [results] = await connection.query(
-      `SELECT * FROM ${Socio.tableName} WHERE Mail = ?`,
-      [Mail]
+      `SELECT * FROM ${User.tableName} WHERE Mail = ?`,
+      [mail]
     );
     if (results.length > 0) {
       res.json(results);
@@ -78,4 +67,4 @@ const getOneSocio = async (req, res) => {
   }
 };
 
-export { createSocio, getAllSocios, getOneSocio };
+export { createUser, getAllUsers, getOneUser };

@@ -1,30 +1,28 @@
 import { encryptPassword, comparePassword } from "../lib/password.js";
-import Socio from "../models/socio.model.js";
-import Admin from "../models/admin.model.js";
+import User from "../models/user.model.js";
 
-// Función para registrar un nuevo usuario
 export const register = async (req, res) => {
   try {
-    const { Nombre, Apellido, Tel, Mail, Password } = req.body;
+    const { nombre, apellido, mail, pssword, tel } = req.body;
 
-    const socioExist = await Socio.findByEmail(Mail);
+    const userExist = await User.findByEmail(mail);
 
-    if (socioExist) {
+    if (userExist) {
       return res
         .status(400)
         .json({ message: "El correo electrónico ya está registrado" });
     }
 
-    const encryptedPassword = await encryptPassword(Password);
+    const encryptedPassword = await encryptPassword(pssword);
 
-    const newSocio = {
-      Mail: Mail,
-      Password: encryptedPassword,
-      Nombre: Nombre,
-      Apellido: Apellido,
-      Tel: Tel,
+    const newUser = {
+      nombre: nombre,
+      apellido: apellido,
+      mail: mail,
+      pssword: encryptedPassword,
+      tel: tel,
     };
-    const socioId = await Socio.create(newSocio);
+    await User.create(newUser);
 
     res.status(201).json({ message: "Socio registrado con éxito" });
   } catch (error) {
@@ -33,39 +31,44 @@ export const register = async (req, res) => {
   }
 };
 
-// Función para iniciar sesión
 export const login = async (req, res) => {
   try {
-    const { Mail, Password } = req.body;
+    const { mail, pssword } = req.body;
 
-    let user = await Admin.findByEmail(Mail);
-    let isAdmin = false;
-
-    if (!user) {
-      user = await Socio.findByEmail(Mail);
-    } else {
-      isAdmin = true;
+    if (!mail || !pssword) {
+      return res
+        .status(400)
+        .json({ message: "El correo y la contraseña son obligatorios" });
     }
+
+    const user = await User.findOne({ where: { mail: mail } });
 
     if (!user) {
       return res.status(400).json({ message: "Credenciales inválidas" });
     }
 
-    const isValidPassword = await comparePassword(Password, user.Password);
+    const isValidPassword = await comparePassword(pssword, user.pssword);
+
     if (!isValidPassword) {
       return res.status(400).json({ message: "Credenciales inválidas" });
     }
 
-    // Enviar solo el ID del usuario como respuesta
-    res.status(200).json({ userId: user.id, isAdmin });
+    if (user.rol === "admin") {
+      // Usuario es administrador
+      return res.status(200).json({ userId: user.id, isAdmin: true });
+    } else if (user.rol === "socio") {
+      // Usuario es socio
+      return res.status(200).json({ userId: user.id, isAdmin: false });
+    } else {
+      // Rol no reconocido (esto es poco probable si los roles están bien configurados)
+      return res.status(403).json({ message: "Acceso no autorizado" });
+    }
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     res.status(500).json({ message: "Error del servidor al iniciar sesión" });
   }
 };
 
-// Función para cerrar sesión (si es necesario)
 export const logout = (req, res) => {
-  // No es necesario implementar nada aquí si no estás utilizando sesiones ni tokens
   res.redirect("/");
 };
