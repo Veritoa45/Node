@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
       nombre: document.getElementById("nombre").value,
       apellido: document.getElementById("apellido").value,
       mail: document.getElementById("mail").value,
-      password: document.getElementById("password").value,
+      pssword: document.getElementById("pssword").value,
       tel: document.getElementById("tel").value,
     };
     console.log("Datos capturados del formulario:", data);
