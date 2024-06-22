@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const responseDiv = document.querySelector("#response");
       if (response.ok) {
         alert("Usuario registrado con éxito");
-        window.location.href = "success.html"; // Redirige a la página de éxito
       } else {
         responseDiv.innerHTML = `<p>${responseData.message}</p>`;
         responseDiv.style.display = "block";
