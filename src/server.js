@@ -6,17 +6,25 @@ import librosRouter from "./routes/libros.routes.js";
 import connection from "./config/db.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import session from "express-session";
+import fileUpload from "express-fileupload";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
-// Configurar middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Servir archivos estáticos desde la carpeta public
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, "../public")));
+app.use(
+  session({
+    secret: "your_secret_key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 // Rutas
 app.use("/auth", authRouter);

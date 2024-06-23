@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
 
-const user = sequelize.define(
-  "user",
+const users = sequelize.define(
+  "users",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -36,13 +36,13 @@ const user = sequelize.define(
     },
   },
   {
-    tableName: "user",
+    tableName: "users",
     timestamps: false,
   }
 );
 
-user.findByEmail = async function (mail) {
-  return await user.findOne({ where: { mail: mail } });
+users.findByEmail = async function (mail) {
+  return await users.findOne({ where: { mail: mail } });
 };
 
-export default user;
+export default users;

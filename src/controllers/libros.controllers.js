@@ -1,9 +1,15 @@
+import Libro from "../models/libro.model.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import { Op } from "sequelize";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const getAllLibros = async (req, res) => {
   try {
-    const [results] = await connection.query(
-      `SELECT * FROM ${Libro.tableName}`
-    );
-    res.json(results);
+    const libros = await Libro.findAll();
+    res.json(libros);
   } catch (error) {
     console.error("Error al obtener los libros:", error);
     res.status(500).json({ error: "Error interno del servidor" });
@@ -13,13 +19,16 @@ const getAllLibros = async (req, res) => {
 // Función para obtener un libro por título parcial
 const getOneLibro = async (req, res) => {
   try {
-    const { title } = req.params;
-    const [results] = await connection.query(
-      `SELECT * FROM ${Libro.tableName} WHERE Titulo LIKE ?`,
-      [`%${title}%`]
-    );
-    if (results.length > 0) {
-      res.json(results);
+    const { titulo } = req.params;
+    const libros = await Libro.findAll({
+      where: {
+        titulo: {
+          [Op.like]: `%${titulo}%`,
+        },
+      },
+    });
+    if (libros.length > 0) {
+      res.json(libros);
     } else {
       res.status(404).json({ message: "Libro no encontrado" });
     }
@@ -32,37 +41,66 @@ const getOneLibro = async (req, res) => {
 // Función para crear un nuevo libro
 const createLibro = async (req, res) => {
   try {
-    const { CodLibro, Titulo, ISBN, Editorial, AEscritura, AEdicion, Tapa } =
-      req.body;
-    const [results] = await connection.query(
-      `INSERT INTO ${Libro.tableName} (CodLibro, Titulo, ISBN, Editorial, AEscritura, AEdicion, Tapa) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [CodLibro, Titulo, ISBN, Editorial, AEscritura, AEdicion, Tapa]
-    );
-    res.status(201).json({
-      id: results.insertId,
-      CodLibro,
-      Titulo,
-      ISBN,
-      Editorial,
-      AEscritura,
-      AEdicion,
-      Tapa,
-    });
+    const { titulo, id_autor, ISBN, genero, resumen } = req.body;
+
+    if (req.files && req.files.tapa) {
+      const tapa = req.files.tapa;
+      const uploadPath = path.join(
+        __dirname,
+        "../../public/uploads",
+        tapa.name
+      );
+
+      tapa.mv(uploadPath, async (err) => {
+        if (err) {
+          return res.status(500).json({ error: "Error al subir la imagen" });
+        }
+
+        const tapaUrl = `/uploads/${tapa.name}`;
+
+        const newLibro = await Libro.create({
+          titulo,
+          id_autor,
+          ISBN,
+          genero,
+          tapa: tapaUrl,
+          resumen,
+        });
+
+        res.status(201).json(newLibro);
+      });
+    } else {
+      res.status(400).json({ error: "No se proporcionó una imagen" });
+    }
   } catch (error) {
     console.error("Error al crear el libro:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
-// Función para actualizar un libro por ISBN
+// Función para actualizar un libro por id
 const updateLibro = async (req, res) => {
   try {
     const { ISBN } = req.params;
-    const { Titulo, Editorial, AEscritura, AEdicion } = req.body;
-    const [results] = await connection.query(
-      `UPDATE ${Libro.tableName} SET Titulo = ?, Editorial = ?, AEscritura = ?, AEdicion = ? WHERE ISBN = ?`,
-      [Titulo, Editorial, AEscritura, AEdicion, ISBN]
-    );
+    const { titulo, id_autor, genero, tapa, resumen } = req.body;
+    const libro = await Libro.findOne({
+      where: {
+        ISBN: ISBN,
+      },
+    });
+
+    if (!libro) {
+      return res.status(404).json({ message: "Libro no encontrado" });
+    }
+
+    await libro.update({
+      titulo,
+      id_autor,
+      genero,
+      tapa,
+      resumen,
+    });
+
     res.json({ message: "Libro actualizado correctamente" });
   } catch (error) {
     console.error("Error al actualizar el libro:", error);
@@ -70,13 +108,21 @@ const updateLibro = async (req, res) => {
   }
 };
 
-// Función para eliminar un libro por ISBN
+// Función para eliminar un libro por id
 const deleteLibro = async (req, res) => {
   try {
     const { ISBN } = req.params;
-    await connection.query(`DELETE FROM ${Libro.tableName} WHERE ISBN = ?`, [
-      ISBN,
-    ]);
+    const libro = await Libro.findOne({
+      where: {
+        ISBN: ISBN,
+      },
+    });
+
+    if (!libro) {
+      return res.status(404).json({ message: "Libro no encontrado" });
+    }
+
+    await libro.destroy();
     res.json({ message: "Libro eliminado correctamente" });
   } catch (error) {
     console.error("Error al eliminar el libro:", error);

@@ -1,36 +1,47 @@
-const Libro = {
-  tableName: "libro",
-  fields: {
-    CodLibro: {
-      type: "int(11)",
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/database.js";
+
+const libro = sequelize.define(
+  "libros",
+  {
+    id: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
-      notnull: true,
+      autoIncrement: true,
     },
-    Titulo: {
-      type: "varchar(90)",
-      notNull: false,
+    titulo: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    id_autor: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: "autores",
+        key: "id",
+      },
     },
     ISBN: {
-      type: "varchar(15)",
-      notNull: false,
+      type: DataTypes.BIGINT,
+      allowNull: true,
     },
-    Editorial: {
-      type: "varchar(20)",
-      notNull: false,
+    genero: {
+      type: DataTypes.STRING(15),
+      allowNull: true,
     },
-    AEscritura: {
-      type: "date",
-      notNull: false,
+    tapa: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
-    AEdicion: {
-      type: "date",
-      notNull: false,
-    },
-    Tapa: {
-      type: "varchar(150)",
-      notNull: false,
+    resumen: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
   },
-};
+  {
+    tableName: "libros",
+    timestamps: false,
+  }
+);
 
-export default Libro;
+export default libro;
