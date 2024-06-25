@@ -25,9 +25,13 @@
         if (responseData.isAdmin) {
           // Redirigir al usuario administrador a admin.html
           window.location.href = "admin.html";
-        } else {
+        } else if (responseData.role === "socio") {
           // Redirigir al usuario socio a client.html
           window.location.href = "client.html";
+        } else {
+          // Redirigir a otra vista o mostrar un mensaje de error para otros roles
+          responseDiv.innerHTML = `<p>Acceso no autorizado para su rol.</p>`;
+          responseDiv.style.display = "block";
         }
       } else {
         // Mostrar mensaje de error en caso de credenciales inválidas u otro error

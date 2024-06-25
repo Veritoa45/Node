@@ -53,12 +53,9 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Credenciales inválidas" });
     }
 
-    if (user.rol !== "admin") {
-      return res.status(403).json({ message: "Acceso no autorizado" });
-    }
-
-    // Inicio de sesión exitoso
-    res.status(200).json({ userId: user.id, isAdmin: true });
+    res
+      .status(200)
+      .json({ userId: user.id, isAdmin: user.rol === "admin", role: user.rol });
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     res.status(500).json({ message: "Error del servidor al iniciar sesión" });
