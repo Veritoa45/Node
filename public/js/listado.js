@@ -1,4 +1,4 @@
-fetch("../../books")
+fetch("../../libros")
 .then((response) => response.json())
 .then((data) => {
   const librosContainer = document.getElementById("card_box");
@@ -32,7 +32,7 @@ fetch("../../books")
 
     const autorElement = document.createElement("p");
     autorElement.classList.add("left");
-    autorElement.textContent = `Autor: ${libro.nombre}`;
+    autorElement.textContent = `Autor: ${libro.id_autor.nombre}`;
 
     const generoElement = document.createElement("p");
     generoElement.classList.add("left");
