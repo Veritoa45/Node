@@ -96,10 +96,9 @@ const updateLibro = async (req, res) => {
 
 // Función para eliminar un libro por id
 const deleteLibro = async (req, res) => {
-  let libro = {}
   try {
     const { ISBN } = req.params;
-    libro = await Libro.findOne({
+    const libro = await Libro.findOne({
       where: {
         ISBN: ISBN,
       },
@@ -108,11 +107,10 @@ const deleteLibro = async (req, res) => {
     if (!libro) {
       return res.status(404).json({ message: "Libro no encontrado" });
     }
-
     await libro.destroy();
+    unlinkSync(path.join(__dirname, libro.tapa));
     res.json({ message: "Libro eliminado correctamente" });
   } catch (error) {
-    unlinkSync(path.join(__dirname, libro.tapa));
     console.error("Error al eliminar el libro:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
