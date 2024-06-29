@@ -28,15 +28,12 @@ const upload = multer({ storage });
 librosRouter.get("/", getAllLibros);
 librosRouter.get("/:titulo", getOneLibro);
 librosRouter.post("/", upload.single("tapa"), (req, res, next) => {
-  if (req.session.isAdmin) {
-    if (req.file) {
+  // if (req.session.isAdmin) {
       createLibro(req, res);
-    } else {
-      res.status(400).json({ error: "No se proporcionó una imagen" });
-    }
-  } else {
-    res.status(401).json({ message: "Usted no está autorizado" });
-  }
+      // res.status(400).json({ error: "No se proporcionó una imagen" });
+  // } else {
+  //   res.status(401).json({ message: "Usted no está autorizado" });
+  // }
 });
 
 // Endpoint para actualizar un libro (solo para administradores)

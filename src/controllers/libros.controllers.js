@@ -43,35 +43,18 @@ const createLibro = async (req, res) => {
   try {
     const { titulo, id_autor, ISBN, genero, resumen } = req.body;
 
-    if (req.files && req.files.tapa) {
-      const tapa = req.files.tapa;
-      const uploadPath = path.join(
-        __dirname,
-        "../../public/uploads",
-        tapa.name
-      );
+    const tapaUrl = `/uploads/${req.file.filename}`;
 
-      tapa.mv(uploadPath, async (err) => {
-        if (err) {
-          return res.status(500).json({ error: "Error al subir la imagen" });
-        }
+    const newLibro = await Libro.create({
+      titulo,
+      id_autor,
+      ISBN,
+      genero,
+      tapa: tapaUrl,
+      resumen,
+    });
 
-        const tapaUrl = `/uploads/${tapa.name}`;
-
-        const newLibro = await Libro.create({
-          titulo,
-          id_autor,
-          ISBN,
-          genero,
-          tapa: tapaUrl,
-          resumen,
-        });
-
-        res.status(201).json(newLibro);
-      });
-    } else {
-      res.status(400).json({ error: "No se proporcionó una imagen" });
-    }
+    res.status(201).json(newLibro);
   } catch (error) {
     console.error("Error al crear el libro:", error);
     res.status(500).json({ error: "Error interno del servidor" });

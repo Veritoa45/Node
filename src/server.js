@@ -7,7 +7,6 @@ import connection from "./config/db.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import session from "express-session";
-import fileUpload from "express-fileupload";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,7 +15,6 @@ const server = http.createServer(app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload());
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(
   session({
