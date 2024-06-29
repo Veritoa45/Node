@@ -1,45 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../estilos/estilos.css" />
-    <title>Tienda de agendas</title>
-  </head>
-  <body>
-    <header>
-      <div class="encabezado">
-        <img src="../img/logo.svg" alt="Logo" class="logo" />
-      </div>
-      <div>
-        <h2>Bienvenid@!</h2>
-      </div>
-      <div class="cliente">
-        <img src="../img/logout.png" alt="salir" id="salir" />
-      </div>
-    </header>
-    <div class="linea"></div>
-    <main>
-      <h1>Nuestros Productos</h1>
-      <div id="agendas-container"></div>
 
-      <div class="linea2"></div>
-    </main>
-    <footer>
-      <div class="fit">
-        <img src="../img/logo.svg" alt="Logo" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.2/css/all.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../estilos/estilos.css" />
+  <title>BiblioNode</title>
+</head>
+
+<body>
+  <header>
+    <nav class="barraNavegacion">
+      <a href="../pages/client.html" class="linkLogo">
+        <img src="../img/logo.svg" alt="Logo de la biblioteca" class="logo" />
+      </a>
+
+      <form action="./listado.html" class="buscadorGrupo" id="buscador">
+        <input type="text" placeholder="Buscar" name="inputBuscador" class="buscador" id="valorBuscado"
+          onkeypress="return event.keyCode !== 13;" />
+        <button type="submit" class="botonBuscador">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div>
+        <img src="../img/logout.png" alt="salir" id="salir" class="logoutButton" />
       </div>
-      <div class="datos">
-        <p>Av. Alvarez Thomas 2617</p>
-        <p>CABA</p>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <div class="box">
+        <div id="card_box"></div>
       </div>
-      <div class="contacto">
-        <h2>Contactanos</h2>
-        <p>11-4444-9999</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer">
+      <a href="../pages/client.html" class="linkLogo logoFooter">
+        <img class="imgFooter logo" src="../img/logo.svg" alt="Logo de la biblioteca" />
+      </a>
+      <div class="copyrigth">
+        <p class="grupo negrita">
+          © 2024 Grupo 14 - Comision 24130 - Codo a codo full Stack Node.js
+        </p>
+        <p class="desarrolladores">
+          Anahí Fernandez - Verónica Molinari - Melina Ocanto - Federico
+          Frontera
+        </p>
       </div>
-    </footer>
-    <script src="../js/scripts.js" type="module"></script>
-    <script src="../js/logout.js"></script>
-  </body>
+    </div>
+  </footer>
+  <script src="../js/listado.js" type="module"></script>
+  <script src="../js/scripts.js" type="module"></script>
+  <script src="../js/logout.js"></script>
+</body>
+
 </html>
