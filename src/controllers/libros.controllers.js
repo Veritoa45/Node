@@ -2,6 +2,8 @@ import Libro from "../models/libro.model.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { Op } from "sequelize";
+import { unlinkSync } from 'fs';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -56,6 +58,7 @@ const createLibro = async (req, res) => {
 
     res.status(201).json(newLibro);
   } catch (error) {
+    unlinkSync(req.file.filename);
     console.error("Error al crear el libro:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
