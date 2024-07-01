@@ -44,13 +44,13 @@ export const login = async (req, res) => {
     const user = await User.findOne({ where: { mail: mail } });
 
     if (!user) {
-      return res.status(400).json({ message: "Credenciales inválidas" });
+      return res.status(400).json({ message: "Email invalido" });
     }
 
     const isValidPassword = await comparePassword(pssword, user.pssword);
 
     if (!isValidPassword) {
-      return res.status(400).json({ message: "Credenciales inválidas" });
+      return res.status(400).json({ message: "Contraseña inválida" });
     }
 
     res

@@ -45,7 +45,7 @@ const createLibro = async (req, res) => {
   try {
     const { titulo, id_autor, ISBN, genero, resumen } = req.body;
 
-    const tapaUrl = `/uploads/${req.file.filename}`;
+    const tapaUrl = `../uploads/${req.file.filename}`;
 
     const newLibro = await Libro.create({
       titulo,
