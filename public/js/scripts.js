@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('/products')
+    fetch('/libros')
         .then(res => res.json())
-        .then(products => {
+        .then(libros => {
             const agendasContainer = document.getElementById('agendas-container');
-            products.forEach(product => {
+            libros.forEach(product => {
                 if (product.stock > 0) {
                     const agendaCard = document.createElement('div');
                     agendaCard.classList.add('agenda-card');
                     agendaCard.innerHTML = `
-                        <h3 class="titulo">${product.title}</h3>
-                        <p class="descripcion">${product.description}</p>
-                        <img src="/uploads/${product.thumbnail}" alt="Thumbnail" class="agenda">
-                        <p class="precio">Precio: $ ${product.price}</p>
+                        <h3 class="titulo">${libro.titlulo}</h3>
+                        <p class="descripcion">${libro.reseña}</p>
+                        <img src="/uploads/${libro.tapa}" alt="Thumbnail" class="agenda">
+                        <p class="precio">Autor: $ ${libro.id_autor}</p>
                     `;
                     agendasContainer.appendChild(agendaCard);
                 }

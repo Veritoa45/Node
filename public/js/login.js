@@ -17,9 +17,7 @@
         },
         body: JSON.stringify(data),
       });
-
       const responseData = await response.json();
-
       const responseDiv = document.querySelector("#response");
       if (response.ok) {
         if (responseData.isAdmin) {
@@ -30,13 +28,16 @@
           window.location.href = "client.html";
         } else {
           // Redirigir a otra vista o mostrar un mensaje de error para otros roles
-          responseDiv.innerHTML = `<p>Acceso no autorizado para su rol.</p>`;
+          console.log(responseData.error);
+          responseDiv.innerHTML = `${responseData.error}`;
           responseDiv.style.display = "block";
         }
       } else {
         // Mostrar mensaje de error en caso de credenciales inválidas u otro error
-        responseDiv.innerHTML = `<p>${responseData.message}</p>`;
-        responseDiv.style.display = "block";
+        if (response.status === 400) {
+          responseDiv.innerHTML = `<p>${responseData.message}</p>`;
+          responseDiv.style.display = "block";
+        }
       }
     } catch (err) {
       console.error("Error al procesar la solicitud:", err);
