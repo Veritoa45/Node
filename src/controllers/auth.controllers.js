@@ -27,7 +27,7 @@ export const register = async (req, res) => {
     res.status(201).json({ message: "Socio registrado con éxito" });
   } catch (error) {
     console.error("Error al registrar el socio:", error);
-    res.status(500).json({ message: "Error del servidor al registrarse" });
+    res.status(500).json({ message: "Error del servidor al registrarse", error: error });
   }
 };
 
@@ -58,7 +58,7 @@ export const login = async (req, res) => {
       .json({ userId: user.id, isAdmin: user.rol === "admin", role: user.rol });
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
-    res.status(500).json({ message: "Error del servidor al iniciar sesión" });
+    res.status(500).json({ message: "Error del servidor al iniciar sesión", error: error });
   }
 };
 
