@@ -2,8 +2,7 @@ import Libro from "../models/libro.model.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { Op } from "sequelize";
-import { unlinkSync } from 'fs';
-
+import { unlinkSync } from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -68,7 +67,7 @@ const createLibro = async (req, res) => {
 const updateLibro = async (req, res) => {
   try {
     const { ISBN } = req.params;
-    const { titulo, id_autor, genero, tapa, resumen } = req.body;
+    const { titulo, id_autor, genero, resumen } = req.body;
     const libro = await Libro.findOne({
       where: {
         ISBN: ISBN,
@@ -81,10 +80,10 @@ const updateLibro = async (req, res) => {
 
     await libro.update({
       titulo,
-      id_autor,
-      genero,
-      tapa,
       resumen,
+      genero,
+      ISBN,
+      id_autor
     });
 
     res.json({ message: "Libro actualizado correctamente" });

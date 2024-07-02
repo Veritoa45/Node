@@ -2,17 +2,17 @@ const form = document.querySelector('#update');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-
-  const title = document.getElementById('title').value.trim();
-  const stock = document.getElementById('stock').value;
-  const price = document.getElementById('price').value;
-  const description = document.getElementById('description').value;
   
-  console.log('Updated values:', { stock, price, description });
+  const titulo = document.getElementById('titulo').value.trim();
+  const id_autor = document.getElementById('id_autor').value;
+  const genero = document.getElementById('genero').value;
+  const resumen = document.getElementById('resumen').value;
+  
+  console.log('Updated values:', { titulo, id_autor, genero, resumen });
 
   try {
-    const queryParams = `stock=${encodeURIComponent(stock)}&price=${encodeURIComponent(price)}&description=${encodeURIComponent(description)}`;
-    const response = await fetch(`/products/${encodeURIComponent(title)}`, {
+    const queryParams = `titulo=${encodeURIComponent(titulo)}&id_autor=${encodeURIComponent(id_autor)}&genero=${encodeURIComponent(genero)}&resumen=${encodeURIComponent(resumen)}&ISBN=${encodeURIComponent(ISBN)}`;
+    const response = await fetch(`/libro/${encodeURIComponent(title)}`, {
       method: 'PUT',
       body: queryParams,
       headers: {
@@ -23,15 +23,17 @@ form.addEventListener('submit', async (e) => {
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Error al actualizar el producto');
+    } else {
+      const responseDiv = document.querySelector('#response');
+      responseDiv.innerHTML = '<p>Producto actualizado con éxito</p>';
+      responseDiv.style.display = 'block';
+      document.getElementById("titulo").value = '';
+      document.getElementById("id_autor").value = '';
+      document.getElementById("genero").value = '';
+      document.getElementById("ISBN").value = '';
+      document.getElementById("resumen").value = '';
     }
 
-    const responseDiv = document.querySelector('#response');
-    responseDiv.innerHTML = '<p>Producto actualizado con éxito</p>';
-    responseDiv.style.display = 'block';
-    document.getElementById('title').value = '';
-    document.getElementById('stock').value = '';
-    document.getElementById('price').value = '';
-    document.getElementById('description').value = '';
   } catch (error) {
     console.error(error);
     const responseDiv = document.querySelector('#response');

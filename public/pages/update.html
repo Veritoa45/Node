@@ -36,38 +36,61 @@
     </header>
     <main>
         <section class="adminContainer">
-            <div class="adminMenu">
-                <h1 class="titulo">Modificar un libro</h1>
-                <form id="update" class="formularioCrearLibro">
-                    <fieldset>
-                        <div class="fila">
-                            <div>
-                                <label for="title">Título</label>
-                                <input type="text" name="title" id="title">
+            <div>
+                <div class="navegador">
+                    <a href="../pages/admin.html" class="navegadorLink">Inicio</a>
+                    <p class="navegadorActual">/ Modificar producto</p>
+                </div>
+                <div class="adminMenu">
+                    <h1 class="titulo">Modificar un libro</h1>
+                    <form id="update" class="formularioCrearLibro">
+                        <fieldset>
+                            <div class="fila">
+                                <div>
+                                    <label for="searchData">Ingresá el libro a editar:</label>
+                                    <input type="text" name="searchData" placeholder="Buscar por título"
+                                        id="searchData">
+                                </div>
+                                <button type="button" id="search" class="button">Buscar libro</button>
                             </div>
-                            <div>
-                                <label for="description">Descripción</label>
-                                <input type="text" name="description" id="description">
-                            </div>
-                        </div>
+                        </fieldset>
+                    </form>
 
-                        <div class="fila">
-                            <div>
-                                <label for="price">Precio</label>
-                                <input type="number" name="price" id="price">
+
+                    <form id="update" class="formularioCrearLibro">
+                        <fieldset>
+                            <div class="fila">
+                                <div>
+                                    <label for="titulo">Título</label>
+                                    <input type="text" name="titulo" id="titulo">
+                                </div>
+                                <div>
+                                    <label for="resumen">Descripción</label>
+                                    <input type="text" name="resumen" id="resumen">
+                                </div>
                             </div>
-                            <div>
-                                <label for="stock">Stock</label>
-                                <input type="number" name="stock" id="stock">
+                            <div class="fila">
+                                <div>
+                                    <label for="id_autor">Autor</label>
+                                    <input type="number" name="id_autor" id="id_autor">
+                                </div>
+                                <div>
+                                    <label for="genero">Género</label>
+                                    <input type="text" name="genero" id="genero">
+                                </div>
+                                <div>
+                                    <label for="ISBN">ISBN</label>
+                                    <input type="number" name="ISBN" id="ISBN">
+                                </div>
                             </div>
-                        </div>
-                        <div id="response"></div>
-                        <br>
-                        <div class="fila">
-                            <button type="submit" class="button">Enviar</button>
-                        </div>
-                    </fieldset>
-                </form>
+                            <div id="response"></div>
+                            <br>
+                            <div class="fila">
+                                <button type="submit" class="button" id="submit">Enviar</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
 
             <img src="../img/personaleyendo.jpg" alt="Foto de libro, banner de la web" class="adminImg" />
@@ -91,6 +114,7 @@
         </div>
     </footer>
     <script src="../js/update.js" type="module"></script>
+    <script src="../js/update-search.js" type="module"></script>
     <script src="../js/logout.js"></script>
 </body>
 
