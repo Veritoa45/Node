@@ -6,7 +6,7 @@ form.addEventListener('submit', async (e) => {
   const title = document.getElementById('title').value.trim();
 
   try {
-    const response = await fetch(`/products/${encodeURIComponent(title)}`, {
+    const response = await fetch(`/libro/${encodeURIComponent(title)}`, {
       method: 'DELETE',
     });
 
