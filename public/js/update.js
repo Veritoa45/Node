@@ -2,19 +2,25 @@ const form = document.querySelector('#update');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  
-  const titulo = document.getElementById('titulo').value.trim();
-  const id_autor = document.getElementById('id_autor').value;
-  const genero = document.getElementById('genero').value;
-  const resumen = document.getElementById('resumen').value;
-  
-  console.log('Updated values:', { titulo, id_autor, genero, resumen });
+  const titulo = document.getElementById("titulo").value
+  const resumen = document.getElementById("resumen").value
+  const genero = document.getElementById("genero").value
+  const ISBN = document.getElementById("ISBN").value
+  const id_autor = document.getElementById("id_autor").value
+  let data = {
+    titulo: titulo,
+    resumen: resumen,
+    genero: genero,
+    ISBN: ISBN,
+    id_autor: id_autor
+  };
+  console.log('Updated values:', data);
 
   try {
-    const queryParams = `titulo=${encodeURIComponent(titulo)}&id_autor=${encodeURIComponent(id_autor)}&genero=${encodeURIComponent(genero)}&resumen=${encodeURIComponent(resumen)}&ISBN=${encodeURIComponent(ISBN)}`;
-    const response = await fetch(`/libro/${encodeURIComponent(title)}`, {
+    // const queryParams = `titulo=${encodeURIComponent(titulo)}&id_autor=${encodeURIComponent(id_autor)}&genero=${encodeURIComponent(genero)}&resumen=${encodeURIComponent(resumen)}&ISBN=${encodeURIComponent(ISBN)}`;
+    const response = await fetch(`../libros/${encodeURIComponent(sessionStorage.getItem('id'))}`, {
       method: 'PUT',
-      body: queryParams,
+      body: data,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },

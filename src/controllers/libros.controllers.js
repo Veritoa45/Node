@@ -66,24 +66,25 @@ const createLibro = async (req, res) => {
 // Función para actualizar un libro por id
 const updateLibro = async (req, res) => {
   try {
-    const { ISBN } = req.params;
-    const { titulo, id_autor, genero, resumen } = req.body;
+    const { id } = req.params;
+    const { titulo, id_autor, genero, resumen, ISBN } = req.body;
     const libro = await Libro.findOne({
       where: {
-        ISBN: ISBN,
+        id: id,
       },
     });
-
+    console.log(libro)
     if (!libro) {
+      console.log('libro no encontrado')
       return res.status(404).json({ message: "Libro no encontrado" });
     }
 
     await libro.update({
-      titulo,
-      resumen,
-      genero,
-      ISBN,
-      id_autor
+      titulo: titulo,
+      id_autor: id_autor,
+      ISBN: ISBN,
+      genero: genero,
+      resumen: resumen
     });
 
     res.json({ message: "Libro actualizado correctamente" });

@@ -28,6 +28,7 @@ searchButton.addEventListener("click", async () => {
     const URLactual = window.location.href;
     const urlArray = URLactual.split('/');
     const page = urlArray[urlArray.length -1].split('?')[0];
+    sessionStorage.setItem('id', libro[0].id)
     document.getElementById("titulo").value = libro[0].titulo;
     if (page != "delete.html") {
       document.getElementById("resumen").value = libro[0].resumen;
