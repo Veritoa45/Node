@@ -15,7 +15,7 @@ searchButton.addEventListener("click", async () => {
         "Content-Type": "application/json",
       },
     });
-
+    
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -31,9 +31,9 @@ searchButton.addEventListener("click", async () => {
     sessionStorage.setItem('id', libro[0].id)
     document.getElementById("titulo").value = libro[0].titulo;
     if (page != "delete.html") {
-      document.getElementById("resumen").value = libro[0].resumen;
-      document.getElementById("genero").value = libro[0].genero;
-      document.getElementById("ISBN").value = libro[0].ISBN;
+    document.getElementById("resumen").value = libro[0].resumen;
+    document.getElementById("genero").value = libro[0].genero;
+    document.getElementById("ISBN").value = libro[0].ISBN;
     document.getElementById("id_autor").value = libro[0].id_autor;
     }
   } catch (error) {
