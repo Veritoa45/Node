@@ -1,4 +1,12 @@
-fetch("../../libros")
+const params = window.location.search;
+let tituloBuscado = '/';
+
+const urlParam = new URLSearchParams(params);
+if (urlParam.get('titulo') != null) {
+  tituloBuscado += urlParam.get('titulo');
+}
+
+fetch("../../libros" + (tituloBuscado === '/' ? '' : '/',tituloBuscado))
 .then((response) => response.json())
 .then((data) => {
   const librosContainer = document.getElementById("card_box");
