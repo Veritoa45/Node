@@ -38,21 +38,21 @@ librosRouter.post("/", upload.single("tapa"), (req, res, next) => {
 
 // Endpoint para actualizar un libro (solo para administradores)
 librosRouter.put("/:id", (req, res, next) => {
-  if (req.session.isAdmin) {
+  //if (req.session.isAdmin) {
     updateLibro(req, res);
-  } else {
+  /*} else {
     res.status(401).json({ message: "Usted no está autorizado" });
-  }
+  }*/
 });
 
 // Endpoint para eliminar un libro (solo para administradores)
 librosRouter.delete("/:id", (req, res, next) => {
-  if (req.session.isAdmin) {
+  //if (req.session.isAdmin) {
     deleteLibro(req, res);
-  } else {
+  /*} else {
     console.log('no esta autorizado')
     res.status(401).json({ message: "Usted no está autorizado" });
-  }
+  }*/
 });
 
 export default librosRouter;

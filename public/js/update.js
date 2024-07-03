@@ -14,17 +14,21 @@ form.addEventListener('submit', async (e) => {
     ISBN: ISBN,
     id_autor: id_autor
   };
-  console.log('Updated values:', data);
+  const id = sessionStorage.getItem('id')
+  console.log(id)
+  console.log(data)
 
   try {
     // const queryParams = `titulo=${encodeURIComponent(titulo)}&id_autor=${encodeURIComponent(id_autor)}&genero=${encodeURIComponent(genero)}&resumen=${encodeURIComponent(resumen)}&ISBN=${encodeURIComponent(ISBN)}`;
-    const response = await fetch(`../libros/${encodeURIComponent(sessionStorage.getItem('id'))}`, {
+    const response = await fetch(`../libros/${encodeURIComponent(id)}`, {
       method: 'PUT',
-      body: data,
+      body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
     });
+
+    console.log(response)
 
     if (!response.ok) {
       const errorData = await response.json();

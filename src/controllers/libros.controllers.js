@@ -65,17 +65,21 @@ const createLibro = async (req, res) => {
 
 // Función para actualizar un libro por id
 const updateLibro = async (req, res) => {
+  const { id } = req.params;
+  const { titulo, id_autor, genero, resumen, ISBN } = req.body;
+  
+  console.log("Hola");
+  console.log(titulo, id_autor, genero, resumen, ISBN);
+
   try {
-    const { id } = req.params;
-    const { titulo, id_autor, genero, resumen, ISBN } = req.body;
     const libro = await Libro.findOne({
       where: {
         id: id,
       },
     });
-    console.log(libro)
+
     if (!libro) {
-      console.log('libro no encontrado')
+      console.log("libro no encontrado");
       return res.status(404).json({ message: "Libro no encontrado" });
     }
 
@@ -84,7 +88,7 @@ const updateLibro = async (req, res) => {
       id_autor: id_autor,
       ISBN: ISBN,
       genero: genero,
-      resumen: resumen
+      resumen: resumen,
     });
 
     res.json({ message: "Libro actualizado correctamente" });
