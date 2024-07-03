@@ -101,10 +101,10 @@ const updateLibro = async (req, res) => {
 // Función para eliminar un libro por id
 const deleteLibro = async (req, res) => {
   try {
-    const { ISBN } = req.params;
+    const { id } = req.params;
     const libro = await Libro.findOne({
       where: {
-        ISBN: ISBN,
+        ISBN: id,
       },
     });
 

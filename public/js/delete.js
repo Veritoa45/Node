@@ -8,6 +8,9 @@ form.addEventListener('submit', async (e) => {
   try {
     const response = await fetch(`/libro/${encodeURIComponent(title)}`, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     });
 
     if (!response.ok) {
