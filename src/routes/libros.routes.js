@@ -10,6 +10,8 @@ import {
   deleteLibro,
 } from "../controllers/libros.controllers.js";
 
+import { isAdmin } from "../middlewares/isAdmin.js";
+
 const librosRouter = Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,7 +40,8 @@ librosRouter.post("/", upload.single("tapa"), (req, res, next) => {
 
 // Endpoint para actualizar un libro (solo para administradores)
 librosRouter.put("/:id", (req, res, next) => {
-  if (req.session.isAdmin) {
+  console.log(req.body)
+  if (req.session) {
     updateLibro(req, res);
   } else {
     res.status(401).json({ message: "Usted no está autorizado" });

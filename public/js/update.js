@@ -1,28 +1,25 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 const form = document.querySelector('#update');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const titulo = document.getElementById("titulo").value
-  const resumen = document.getElementById("resumen").value
-  const genero = document.getElementById("genero").value
-  const ISBN = document.getElementById("ISBN").value
-  const id_autor = document.getElementById("id_autor").value
-  let data = {
-    titulo: titulo,
-    resumen: resumen,
-    genero: genero,
-    ISBN: ISBN,
-    id_autor: id_autor
-  };
-  console.log('Updated values:', data);
+ 
 
   try {
+    const titulo = document.getElementById("titulo").value
+    const resumen = document.getElementById("resumen").value
+    const genero = document.getElementById("genero").value
+    const ISBN = document.getElementById("ISBN").value
+    const id_autor = document.getElementById("id_autor").value
+    let data = { "titulo": titulo, "resumen": resumen, "genero": genero, "ISBN": ISBN, "id_autor": id_autor }
+    console.log('Updated values:', data);
     // const queryParams = `titulo=${encodeURIComponent(titulo)}&id_autor=${encodeURIComponent(id_autor)}&genero=${encodeURIComponent(genero)}&resumen=${encodeURIComponent(resumen)}&ISBN=${encodeURIComponent(ISBN)}`;
-    const response = await fetch(`../libros/${encodeURIComponent(sessionStorage.getItem('id'))}`, {
+    const response = await fetch('../libros/' +sessionStorage.getItem('id'), {
       method: 'PUT',
-      body: data,
+      body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
     });
 
@@ -47,3 +44,4 @@ form.addEventListener('submit', async (e) => {
     responseDiv.style.display = 'block';
   }
 });
+})
