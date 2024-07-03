@@ -19,10 +19,11 @@ form.addEventListener('submit', async (e) => {
 
     const responseDiv = document.querySelector('#response');
 
-    responseDiv.innerHTML = '<p>Producto eliminado con éxito</p>';
+    responseDiv.innerHTML = '<p>Libro eliminado con éxito</p>';
     responseDiv.style.display = 'block';
 
-    document.getElementById('title').value = '';
+    document.getElementById('titulo').value = '';
+    document.getElementById('searchData').value = '';
 
   } catch (error) {
     console.error(error);

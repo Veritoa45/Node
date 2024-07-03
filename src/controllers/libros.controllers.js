@@ -112,7 +112,7 @@ const deleteLibro = async (req, res) => {
       return res.status(404).json({ message: "Libro no encontrado" });
     }
     await libro.destroy();
-    unlinkSync(path.join(__dirname, libro.tapa));
+    unlinkSync(path.join(__dirname,'../../public/uploads', libro.tapa));
     res.json({ message: "Libro eliminado correctamente" });
   } catch (error) {
     console.error("Error al eliminar el libro:", error);
