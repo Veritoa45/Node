@@ -1206,3 +1206,9 @@ footer {
   font-size: 14px;
   margin-bottom: 4px;
 }
+
+@media (max-width: 600px){
+  .adminImg{
+    display: none;
+  }
+}

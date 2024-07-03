@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 const form = document.querySelector('#update');
 
 form.addEventListener('submit', async (e) => {
@@ -51,3 +53,4 @@ form.addEventListener('submit', async (e) => {
     responseDiv.style.display = 'block';
   }
 });
+})
