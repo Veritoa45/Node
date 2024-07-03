@@ -2,11 +2,10 @@ const form = document.querySelector('#delete');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-
-  const title = document.getElementById('title').value.trim();
+  const id = sessionStorage.getItem('id')
 
   try {
-    const response = await fetch(`/libro/${encodeURIComponent(title)}`, {
+    const response = await fetch(`../libros/${encodeURIComponent(id)}`, {
       method: 'DELETE',
     });
 
