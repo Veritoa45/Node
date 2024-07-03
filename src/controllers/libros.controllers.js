@@ -73,9 +73,10 @@ const updateLibro = async (req, res) => {
         id: id,
       },
     });
-    console.log(libro)
+
+    console.log(req.body)
+
     if (!libro) {
-      console.log('libro no encontrado')
       return res.status(404).json({ message: "Libro no encontrado" });
     }
 
