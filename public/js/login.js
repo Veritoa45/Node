@@ -20,6 +20,7 @@
       const responseData = await response.json();
       const responseDiv = document.querySelector("#response");
       if (response.ok) {
+        sessionStorage.setItem("isAdmin", responseData.isAdmin); // Guardar el estado isAdmin en sessionStorage
         if (responseData.isAdmin) {
           // Redirigir al usuario administrador a admin.html
           window.location.href = "admin.html";

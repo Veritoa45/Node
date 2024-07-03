@@ -1,34 +1,47 @@
-const form = document.querySelector('#delete');
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("#delete");
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const id = sessionStorage.getItem('id')
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch(`../libros/${encodeURIComponent(id)}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Error al eliminar el producto');
+    const isAdmin = sessionStorage.getItem("isAdmin");
+    if (!isAdmin || isAdmin !== "true") {
+      alert("No tienes permisos para realizar esta acción");
+      return;
     }
 
-    const responseDiv = document.querySelector('#response');
+    const id = sessionStorage.getItem("id");
 
-    responseDiv.innerHTML = '<p>Libro eliminado con éxito</p>';
-    responseDiv.style.display = 'block';
+    try {
+      const response = await fetch(`../libros/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    document.getElementById('titulo').value = '';
-    document.getElementById('searchData').value = '';
+      console.log(response);
 
-  } catch (error) {
-    console.error(error);
-    const responseDiv = document.querySelector('#response');
-    responseDiv.innerHTML = `<p>${error.message}</p>`;
-    responseDiv.style.display = 'block';
-  }
+      if (response.headers.get("content-type")?.includes("application/json")) {
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message || "Error al eliminar el libro");
+        } else {
+          const responseDiv = document.querySelector("#response");
+          responseDiv.innerHTML = "<p>Libro eliminado con éxito</p>";
+          responseDiv.style.display = "block";
+          document.getElementById("titulo").value = "";
+          document.getElementById("searchData").value = "";
+        }
+      } else {
+        const errorText = await response.text();
+        throw new Error("Error en la respuesta del servidor: " + errorText);
+      }
+    } catch (error) {
+      console.error(error);
+      const responseDiv = document.querySelector("#response");
+      responseDiv.innerHTML = `<p>${error.message}</p>`;
+      responseDiv.style.display = "block";
+    }
+  });
 });

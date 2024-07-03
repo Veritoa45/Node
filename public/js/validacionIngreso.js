@@ -7,11 +7,9 @@ formIngreso.addEventListener("submit", async (event) => {
 
   for (let i = 0; i < inputText.length; i++) {
     if (inputText[i].value.trim().length < 3) {
-      responseDiv.innerHTML =
-        `</p>Debe completar el campo "${inputText[i]
-          .getAttribute("id")
-          .toUpperCase()}"</p>`
-      ;
+      responseDiv.innerHTML = `</p>Debe completar el campo "${inputText[i]
+        .getAttribute("id")
+        .toUpperCase()}"</p>`;
       event.preventDefault();
       return;
     }
@@ -34,26 +32,30 @@ formIngreso.addEventListener("submit", async (event) => {
       },
       body: JSON.stringify(data),
     });
-    const responseData = await response.json();
-    if (response.ok) {
-      if (responseData.isAdmin) {
-        // Redirigir al usuario administrador a admin.html
-        window.location.href = "admin.html";
-      } else if (responseData.role === "socio") {
-        // Redirigir al usuario socio a client.html
-        window.location.href = "client.html";
+    if (response.headers.get("content-type")?.includes("application/json")) {
+      const responseData = await response.json();
+      if (response.ok) {
+        sessionStorage.setItem("isAdmin", responseData.isAdmin);
+        if (responseData.isAdmin) {
+          window.location.href = "admin.html";
+        } else if (responseData.role === "socio") {
+          window.location.href = "client.html";
+        } else {
+          console.log(responseData.error);
+          responseDiv.innerHTML = `${responseData.error}`;
+          responseDiv.style.display = "block";
+        }
       } else {
-        // Redirigir a otra vista o mostrar un mensaje de error para otros roles
-        console.log(responseData.error);
-        responseDiv.innerHTML = `${responseData.error}`;
-        responseDiv.style.display = "block";
+        if (response.status === 400) {
+          responseDiv.innerHTML = `<p>${responseData.message}</p>`;
+          responseDiv.style.display = "block";
+        }
       }
     } else {
-      // Mostrar mensaje de error en caso de credenciales inválidas u otro error
-      if (response.status === 400) {
-        responseDiv.innerHTML = `<p>${responseData.message}</p>`;
-        responseDiv.style.display = "block";
-      }
+      const errorText = await response.text();
+      console.error("Error: ", errorText);
+      responseDiv.innerHTML = `<p>Error en la respuesta del servidor</p>`;
+      responseDiv.style.display = "block";
     }
   } catch (err) {
     console.error("Error al procesar la solicitud:", err);
@@ -66,13 +68,11 @@ formRegistro.addEventListener("submit", async (event) => {
   const inputText = document.getElementsByClassName("datos");
   const responseDiv = document.querySelector("#response");
 
-
   for (let i = 0; i < inputText.length; i++) {
     if (inputText[i].value.trim().length < 3) {
       responseDiv.innerHTML = `Debe completar el campo "${inputText[i]
-          .getAttribute("id")
-          .toUpperCase()}"`
-      ;
+        .getAttribute("id")
+        .toUpperCase()}"`;
       event.preventDefault();
       return;
     }
@@ -85,7 +85,7 @@ formRegistro.addEventListener("submit", async (event) => {
     responseDiv.innerHTML = "Las contraseñas no coinciden";
     event.preventDefault();
     return;
-  } else  if (pssw.value.length < 8) {
+  } else if (pssw.value.length < 8) {
     event.preventDefault();
     responseDiv.innerHTML = "La contraseña debe contener minimo 8 caracteres";
     return;
@@ -95,7 +95,7 @@ formRegistro.addEventListener("submit", async (event) => {
 
   if (!acepto.checked) {
     event.preventDefault();
-    responseDiv.innerHTML ="Debes aceptar los términos y condiciones";
+    responseDiv.innerHTML = "Debes aceptar los términos y condiciones";
     return;
   }
 
